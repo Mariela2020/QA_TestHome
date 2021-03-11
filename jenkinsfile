@@ -1,0 +1,116 @@
+pipeline {
+    agent any
+    createDynatraceDeploymentEvent(
+        envId: 'dynatrace',
+        tagMatchRules: [
+            [
+                meTypes: [
+                        [meType: 'PROCESS_GROUP']
+                ],
+                tags: [
+                        [context: 'CONTEXTLESS', key: '', value: 'frontend']
+                ]
+            ]
+        ]) {
+        // some block
+    }
+
+    }
+
+
+
+
+
+    stages{
+
+        stage("Checkout"){
+            steps {
+
+                git branch:'master', credentialsId: '81fc25ac-6304-4567-a52b-51ad157e07b5', url:'https://github.com/Mariela2020/QA_TestHome.git']]])
+            }
+        }
+
+        stage("Build"){
+            steps{
+                script {
+                    bat 'mvn clean'
+                    bat 'mvn test'
+                    //bat 'clean package'
+                }
+                archiveArtifacts artifacts: '**/target/*.jar fingerprint: true
+            }
+        }
+
+        stage("Build Docker image"){
+            steps{
+                script {
+                    dockerImage = docker.build registry
+
+                }
+            }
+
+        }
+
+        stage("uploading Image") {
+            steps {
+                script {
+                     docker.withRegistry( '', registryCredential ) {
+                     dockerImage.push()
+                    }
+                }
+            }
+
+        }
+
+        stage('Docker Run'){
+           steps{
+               script{
+                     dockerImage.run("-p 8083:8083 --rm --name docker-jenkins-integrationContainer")
+                    }
+            }
+        }
+
+        stage('Deploy ArgoCD') {
+               steps {
+                       withCredentials([string(credentialsId: "	argocd_id", variable: 'ARGOCD_AUTH_TOKEN')])
+                         {
+
+                          bat 'deploy'
+                        }
+                    }
+        }
+    }
+}
+
+
+
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "MAVEN_HOME"
+    }
+
+    stages {
+        stage('Build') {
+
+            steps {
+                // Get some code from a GitHub repository
+                 git branch:'main', credentialsId: '81fc25ac-6304-4567-a52b-51ad157e07b5', url:'https://github.com/Mariela2020/ProyectosQA.git'
+
+                // To run Maven on a Windows agent, use
+                bat 'mvn clean'
+
+            }
+        }
+
+        stage('Firefox') {
+            steps {
+
+           bat "mvn clean test -DdriverManager_type=FIREFOX"
+            }
+        }
+
+    }
+}

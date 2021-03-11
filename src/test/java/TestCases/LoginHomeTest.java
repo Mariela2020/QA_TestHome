@@ -94,19 +94,25 @@ public class LoginHomeTest {
     }
 
     //@Test(priority = 1, enabled = true)
-    @Test(priority = 0)
-    public void register() throws Exception {
-        // expected = "TOCTOC.com:propiedades, casas y deptos. Asesórate antes de comprar";
+    @Test(priority = 1, description = "Verifica Titulo Page")
+    public void titlePage() throws InterruptedException {
         objLoginPageHome = new LoginHomePage(driver);
         expected = "TOCTOC.com - Casas, Departamentos en Venta y Arriendo publicados en este portal inmobiliario";
         actual = driver.getTitle();
         Assert.assertEquals(actual, expected);
         objLoginPageHome.CerrarMensaje();
+    }
+
+    @Test(priority = 2, description = "Ingresa Credenciales Valida")
+    public void login() throws Exception {
         objLoginPageHome.ClickEntrarLink();
         objLoginPageHome.EnterLogin("hurtadomariela2@gmail.com", "prueba");
         objLoginPageHome.ClickIniciarBtn();
-        objLoginPageHome.registroPageIsDisplayed();
     }
 
+    @Test(priority = 3, description = "Verifica el UserName")
+    public void register() throws Exception {
+        objLoginPageHome.registroPageIsDisplayed();
+    }
 
 }
