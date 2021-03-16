@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Test Suite">
 
+    <listeners>
+        <listener class-name="Pom.ExecutionListener" />
+    </listeners>
     <test name="Run Edge">
         <parameter name="browser" value="EDGE"></parameter>
         <classes>
@@ -9,5 +12,25 @@
         </classes>
     </test>
 
+    <test name="Run Chrome">
+        <parameter name="browser" value="CHROME"></parameter>
+        <classes>
+            <class name="TestCases.LoginHomeTest"></class>
+        </classes>
+    </test>
+
+    <test name="Run Firefox">
+        <parameter name="browser" value="FIREFOX"></parameter>
+        <classes>
+            <class name="TestCases.LoginHomeTest"></class>
+        </classes>
+    </test>
+
+    <test name="Run Opera">
+        <parameter name="browser" value="OPERA"></parameter>
+        <classes>
+            <class name="TestCases.LoginHomeTest"></class>
+        </classes>
+    </test>
 
 </suite>
