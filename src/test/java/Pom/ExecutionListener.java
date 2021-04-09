@@ -9,6 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 public class ExecutionListener implements ITestListener {
 
+ //   private static String getTestMethodName(ITestResult iTestResult) {
+ //       return iTestResult.getMethod().getConstructorOrMethod().getName();
+ //   }
+
     public void onTestStart(ITestResult iTestResult) {
 
     }
@@ -58,6 +62,7 @@ public class ExecutionListener implements ITestListener {
         Point point = Point.measurement("testclass")
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .tag("name", iTestContext.getAllTestMethods()[0].getTestClass().getName())
+               // .tag("browser", (iTestContext.getAllTestMethods()[1].getTestClass().getName())
                 .addField("duration", (iTestContext.getEndDate().getTime() - iTestContext.getStartDate().getTime()))
                 .build();
         ResultSender.send(point);

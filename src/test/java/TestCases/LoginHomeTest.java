@@ -111,7 +111,7 @@ public class LoginHomeTest {
         objLoginPageHome.ClickIniciarBtn();
     }
 
-    @Test(priority = 3, description = "Verifica el UserName")
+    @Test(priority = 3, description = "Verifica UserName")
     public void register() throws Exception {
         objLoginPageHome.registroPageIsDisplayed();
     }
