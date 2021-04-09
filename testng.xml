@@ -27,11 +27,6 @@
         </classes>
 
     </test>
-    <test name="Run Opera">
-        <parameter name="browser" value="OPERA"></parameter>
-        <classes>
-            <class name="TestCases.LoginHomeTest"></class>
-        </classes>
-    </test>
+
 
 </suite>
